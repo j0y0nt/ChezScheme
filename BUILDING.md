@@ -458,12 +458,12 @@ after <machine type>:
    Runs tests (default set and other sets) assuming that "scheme.exe"
    is already built.
 
-To create an installer you will need to use WSL or MSYS2:
-
+**To create an installer you will need to use WSL or MSYS2:**
+```
   cd wininstall
   make workareas
   make
-
+```
 These commands will create workareas and compile binaries for the
 `a6nt`, `i3nt`, `ta6nt`, and `ti3nt` machine types and then include
 them in a single Windows installer package "Chez Scheme.exe". The
@@ -495,9 +495,9 @@ Library.
 
 To target WebAssembly via Emscripten and `emcc`, use the
 `--emscripten` flag:
-
+```
  ./configure --emscripten
-
+```
 The default machine type is pb, but using the `--threads` and/or
 `--pbarch` flags can adjust it to tpb, pb32l, or tpb32l. Boot files
 for the machine type must be built already, and the configured
@@ -514,7 +514,7 @@ To build Emscripten output that runs a specific program, compile the
 program as a boot file that sets the `scheme-start` parameter, then
 supply that boot file's path to `./configure` using the `--emboot=...`
 flag. For example, suppose "demo.ss" contains the following:
-
+```
  (define (go)
    (let loop ([i 10000000])
      (unless (zero? i)
@@ -522,24 +522,24 @@ flag. For example, suppose "demo.ss" contains the following:
 
  (scheme-start (lambda ()
                  (time (go))))
-
+```
 To compile this file, you'll need a build that runs on the current
 machine for the target machine type, probably like this:
-
+```
  ./configure --pb
  make
  make run
-
+```
 Using that build, create a boot file "demo.boot":
-
+```
  (compile-file "demo.ss" "demo.so")
  (make-boot-file "demo.boot" (list "petite") "demo.so")
-
+```
 Finally, configure the Emscripten build to use "demo.boot":
-
+```
  ./configure --pb --emscripten --emboot=demo.boot
  make
-
+```
 
 ## CROSS COMPILING
 
@@ -602,13 +602,13 @@ step via `DESTDIR`:
 ## CROSS COMPILING SCHEME PROGRAMS
 
 After getting a non-cross build to work on the host platform, using
-
+```
   make bootquick XM=<machine type>
-
+```
 or
-
+```
   zuo . bootquick <machine type>
-
+```
 creates a "boot" subdirectory for <machine type> containing boot files
 and in the process creates a cross-compilation patch file as
 "xc-<machine type>/s/xpatch". Loading that "xpatch" file into Chez
